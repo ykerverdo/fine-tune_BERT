@@ -33,3 +33,6 @@ The longest step during training is run_training_epoch, which covers the process
 The percentages exceed 100% when summed because they are measured independently but overlap within run_training_epoch. That is, optimizer_step and backward occur within the same total time, but the profiler tracks them separately to show where most of the computational effort is spent
 
 TensorBoard logs were also generated during training, providing visualizations of the training process. Two plots were produced: one showing epochs versus training steps (one update of the model’s parameters) and the other showing training loss as a function of steps, which together allow monitoring of the model’s progress over time
+<img width="887" height="480" alt="Capture d’écran 2025-10-15 à 22 15 29" src="https://github.com/user-attachments/assets/72b2caa0-ab20-4a5b-975a-6b8ba990d0d4" />
+<img width="890" height="423" alt="Capture d’écran 2025-10-15 à 22 16 04" src="https://github.com/user-attachments/assets/dd3da1ee-e44c-4f82-af58-ead8bf453315" />
+
