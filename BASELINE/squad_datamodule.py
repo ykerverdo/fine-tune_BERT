@@ -74,9 +74,9 @@ class SquadDataModule(pl.LightningDataModule):
             inputs["end_positions"] = end_positions
             return inputs
 
-        small_train_dataset = self.dataset["train"].shuffle(seed=42).select(range(1000))
+        # small_train_dataset = self.dataset["train"].shuffle(seed=42).select(range(1000))
         # Apply preprocessing to the training dataset
-        self.train_dataset = small_train_dataset.map(
+        self.train_dataset = self.dataset["train"].map(
             preprocess_training_examples,
             batched=True,
             remove_columns=self.dataset["train"].column_names,
