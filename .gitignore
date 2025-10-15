@@ -1,2 +1,5 @@
 train_tokenized/
 validation_tokenized/
+*pycache*/
+*lightning_logs*/
+*job.sh*
