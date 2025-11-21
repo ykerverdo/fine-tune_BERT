@@ -24,8 +24,8 @@ The total training time measured was approximately: 1236.7 seconds (~20 minutes)
 
 The SimpleProfiler from PyTorch Lightning provided insights into the runtime distribution for the distributed setup. The longest step is still run_training_epoch, covering all batches in one epoch: 
 - BertModule.optimizer_step remains the heaviest operation (~85%), updating model weights based on gradients. 
-- DDPStrategy.backward (backpropagation) now accounts for ~27% of the time, compared to ~40% on a single GPU. DDPStrategy.backward (backpropagation) now accounts for ~27% of the time, compared to ~40% on a single GPU. The lower proportion is probably due to the workload being split across multiple GPUs and nodes. The actual inter-GPU communication seems not to be explicitly measured by the SimpleProfiler.
+- DDPStrategy.backward (backpropagation) now accounts for ~27% of the time, compared to ~40% on a single GPU. The lower proportion is probably due to the workload being split across multiple GPUs and nodes. The actual inter-GPU communication seems not to be explicitly measured by the SimpleProfiler.
 
-The same TensorBoard plots as in the single-GPU version were generated, showing training loss over steps and number of steps versus epochs; they are displayed below.
+The same TensorBoard plots as in the single-GPU version were generated, showing training loss over steps and number of steps versus epochs.
 <img width="884" height="429" alt="Capture d’écran 2025-11-21 à 18 56 56" src="https://github.com/user-attachments/assets/0799ec37-a39b-40af-b2b7-faea5a2a0f29" />
 <img width="892" height="418" alt="Capture d’écran 2025-11-21 à 18 57 19" src="https://github.com/user-attachments/assets/1d6f4bef-d8e2-4966-8bc5-47c69cbe496e" />
