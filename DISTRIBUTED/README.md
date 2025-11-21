@@ -6,7 +6,7 @@ After completing the baseline (single-GPU) implementation, the next step was to 
 Only a few modifications were needed to move from single-GPU training to multi-GPU, multi-node training:
 
 - Trainer Configuration
-The Lightning Trainer was updated to enable distributed training by specifying: the number of devices (GPUs per node), the number of nodes and the distributed strategy (ddp). To measure training time, I realized that the distributed process group is only initialized after fit starts, so a custom callback is used. The timer runs on rank 0, and a dist.barrier() ensures all GPUs are synchronized before stopping the timer.
+The Lightning Trainer was updated to enable distributed training by specifying: the number of devices (GPUs per node), the number of nodes and the distributed strategy (ddp). We measure training time using a Lightning callback, since the distributed process group is initialized only after fit() starts, and trainer.global_rank == 0 ensures the timer runs only on the main process.
 
 - SLURM Job
 A new SLURM script was created to request 2 nodes and 2 GPUs per node (A100)
@@ -14,7 +14,7 @@ A new SLURM script was created to request 2 nodes and 2 GPUs per node (A100)
 ## Results
 The distributed version trains the same BERT-Base Uncased model (110M parameters) on the SQUAD dataset across 4 GPUs (2 nodes × 2 GPUs per node) for 3 epochs.
 
-The total training time measured was approximately: 1236.7 seconds (~20.6 minutes) This is a significant speed-up compared to the baseline single-GPU time (~2236.98 seconds, ~37 minutes). The speed-up is not linear due to communication between nodes, but distributed training clearly improves performance.
+The total training time measured was approximately: 1236.7 seconds (~20 minutes) This is a significant speed-up compared to the baseline single-GPU time (~2236.98 seconds, ~37 minutes). The speed-up is not linear due to communication between nodes, but distributed training clearly improves performance.
 
 The SimpleProfiler from PyTorch Lightning provided insights into the runtime distribution for the distributed setup. The longest step is still run_training_epoch, covering all batches in one epoch: 
 - BertModule.optimizer_step remains the heaviest operation (~85%), updating model weights based on gradients. 
